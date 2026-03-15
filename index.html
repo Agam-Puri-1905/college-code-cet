@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MHT-CET College Cutoff — Sign-in Required</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== THEME VARIABLES ===== */
+    :root,
+    [data-theme="light"] {
+      --brand: #e6403a;
+      --brand-600: #d8352e;
+      --brand-soft: #fff1f0;
+      --ink: #111827;
+      --ink-2: #374151;
+      --muted: #6b7280;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --stroke: #e5e7eb;
+      --ring: #cfe2ff;
+      --row-alt: #fbfbfb;
+      --row-hover: #f5f8ff;
+      --th-bg: #fafafa;
+      --th-hover: #f0f0f0;
+      --input-bg: #ffffff;
+      --chip-bg: #f0f4ff;
+      --chip-color: #3b5bdb;
+      --chip-green-bg: #f0fdf4;
+      --chip-green: #16a34a;
+      --chip-orange-bg: #fff7ed;
+      --chip-orange: #ea580c;
+      --shadow: 0 20px 60px rgba(16,24,40,.06);
+      --topbar-bg: #fff;
+    }
+
+    [data-theme="dark"] {
+      --brand: #ff6b65;
+      --brand-600: #e6403a;
+      --brand-soft: #3a1a18;
+      --ink: #f3f4f6;
+      --ink-2: #d1d5db;
+      --muted: #9ca3af;
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --stroke: #2d3142;
+      --ring: #1e3a5f;
+      --row-alt: #1e2130;
+      --row-hover: #252840;
+      --th-bg: #151821;
+      --th-hover: #1e2130;
+      --input-bg: #13151f;
+      --chip-bg: #1e2a50;
+      --chip-color: #93b4ff;
+      --chip-green-bg: #0d2918;
+      --chip-green: #4ade80;
+      --chip-orange-bg: #2d1a08;
+      --chip-orange: #fb923c;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --topbar-bg: #13151f;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing: antialiased;
+      transition: background .25s, color .25s;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--topbar-bg);
+      border-bottom: 1px solid var(--stroke);
+      backdrop-filter: blur(8px);
+      transition: background .25s, border-color .25s;
+    }
+    .topbar-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .brand-badge { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--ink); }
+    .badge {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: var(--brand); color: #fff;
+      display: grid; place-items: center;
+      font-family: Poppins, Inter, sans-serif; font-weight: 600; letter-spacing: .2px;
+      box-shadow: 0 6px 20px rgba(230,64,58,.25);
+      flex-shrink: 0;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .site-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 999px;
+      background: var(--brand-soft); color: var(--brand);
+      text-decoration: none; font-weight: 600; font-size: 13px;
+      border: 1px solid rgba(230,64,58,.25);
+      transition: background .2s;
+    }
+    .site-link:hover { background: rgba(230,64,58,.18); }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      position: relative; width: 52px; height: 28px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .theme-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute; inset: 0;
+      background: var(--stroke);
+      border-radius: 999px;
+      transition: background .3s;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 5px;
+      font-size: 12px;
+      line-height: 1;
+    }
+    [data-theme="dark"] .toggle-track { background: #4f46e5; }
+    .toggle-knob {
+      position: absolute; top: 3px; left: 3px;
+      width: 22px; height: 22px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,.25);
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      pointer-events: none;
+    }
+    .theme-toggle input:checked ~ .toggle-knob { transform: translateX(24px); }
+
+    /* ===== SHELL ===== */
+    .wrap { max-width: 1200px; margin: 30px auto; padding: 0 20px 40px; }
+    .card {
+      background: var(--card); border: 1px solid var(--stroke);
+      border-radius: 14px; box-shadow: var(--shadow);
+      padding: 26px; margin-bottom: 18px;
+      transition: background .25s, border-color .25s;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    h1 { margin: 0 0 18px; font-family: Poppins, Inter, sans-serif; font-size: 26px; font-weight: 700; letter-spacing: .2px; color: var(--ink); }
+    label { font-weight: 600; color: var(--ink-2); display: block; margin: 10px 0 8px; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select {
+      width: 100%; padding: 13px 14px;
+      border: 1px solid var(--stroke);
+      background: var(--input-bg);
+      border-radius: 10px; font-size: 15px; color: var(--ink);
+      outline: none; transition: border .2s, box-shadow .2s, background .25s, color .25s;
+    }
+    input::placeholder { color: var(--muted); }
+    input:focus, select:focus { border-color: #bcd3ff; box-shadow: 0 0 0 4px var(--ring); }
+    .help { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+    .error { color: #dc2626; font-size: 13px; margin-top: 6px; }
+
+    .btn {
+      appearance: none; border: none; cursor: pointer;
+      padding: 12px 16px; border-radius: 10px; font-weight: 700;
+      transition: .2s transform, .2s box-shadow, .2s background;
+    }
+    .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 10px 18px rgba(230,64,58,.25); }
+    .btn-primary:hover { background: var(--brand-600); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: #0d6efd; }
+    .btn[disabled] { opacity: .7; cursor: not-allowed; }
+
+    /* ===== COLLEGE PANEL ===== */
+    .college-panel { padding: 18px; }
+    .controls-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .select-simple {
+      background: var(--input-bg); border-radius: 8px;
+      padding: 10px 12px; border: 1px solid var(--stroke);
+      min-width: 200px; color: var(--ink);
+      transition: background .25s, border-color .25s, color .25s;
+    }
+
+    /* ===== SEARCH ===== */
+    .search-wrap { position: relative; flex: 1; min-width: 200px; }
+    .search-wrap input { padding-left: 36px; border-radius: 8px; }
+    .search-icon {
+      position: absolute; left: 11px; top: 50%;
+      transform: translateY(-50%); color: var(--muted);
+      font-size: 15px; pointer-events: none;
+    }
+
+    /* ===== TABLE ===== */
+    .table-wrap {
+      overflow: auto; border-radius: 8px;
+      background: var(--card); padding: 12px;
+      margin-top: 6px; border: 1px solid var(--stroke);
+      transition: background .25s, border-color .25s;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; color: var(--ink); }
+    th, td { padding: 10px 8px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--stroke); }
+    th {
+      background: var(--th-bg); position: sticky; top: 0; z-index: 2;
+      font-weight: 700; color: var(--ink-2); cursor: pointer; user-select: none;
+      transition: background .2s;
+    }
+    th:hover { background: var(--th-hover); }
+    tr:nth-child(even) td { background: var(--row-alt); }
+    tr:hover td { background: var(--row-hover); }
+
+    /* ===== CHIPS ===== */
+    .chip {
+      display: inline-block; padding: 2px 8px;
+      border-radius: 999px; font-size: 11px; font-weight: 600;
+      background: var(--chip-bg); color: var(--chip-color);
+    }
+    .chip-green { background: var(--chip-green-bg); color: var(--chip-green); }
+    .chip-orange { background: var(--chip-orange-bg); color: var(--chip-orange); }
+
+    a.college-link { color: var(--ink); text-decoration: none; font-weight: 500; }
+    a.college-link:hover { color: var(--brand); text-decoration: underline; }
+
+    /* ===== FOOTER ===== */
+    .muted { color: var(--muted); font-size: 12px; }
+    .small { font-size: 13px; color: var(--muted); }
+    .footer-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 12px; flex-wrap: wrap; gap: 8px;
+    }
+
+    /* ===== PAGINATION ===== */
+    .pagination { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+    .page-btn {
+      appearance: none; border: 1px solid var(--stroke);
+      background: var(--card); border-radius: 6px;
+      padding: 5px 10px; cursor: pointer; font-size: 13px; color: var(--ink);
+      transition: background .15s;
+    }
+    .page-btn:hover { background: var(--row-hover); }
+    .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .page-btn[disabled] { opacity: .4; cursor: not-allowed; }
+
+    /* ===== RESPONSIVE: hide table / show cards on mobile ===== */
+    @media (max-width: 700px) {
+      .table-wrap { display: none; }
+      .cards-wrap { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+      .select-simple { min-width: 140px; }
+      .search-wrap { min-width: 100%; }
+    }
+    @media (min-width: 701px) {
+      .cards-wrap { display: none; }
+    }
+
+    /* ===== DATA CARDS (mobile) ===== */
+    .data-card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 16px 16px 16px 20px;
+      box-shadow: var(--shadow);
+      transition: background .25s, border-color .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    /* coloured left accent bar */
+    .data-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0; width: 5px;
+      background: var(--brand);
+      border-radius: 4px 0 0 4px;
+    }
+    .data-card-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 10px; margin-bottom: 8px;
+    }
+    .data-card-college {
+      font-weight: 700; font-size: 14px;
+      color: var(--ink); line-height: 1.4; flex: 1;
+    }
+    .data-card-college a { color: var(--ink); text-decoration: none; }
+    .data-card-college a:hover { color: var(--brand); text-decoration: underline; }
+
+    .data-card-pct { text-align: right; flex-shrink: 0; }
+    .pct-value {
+      font-size: 20px; font-weight: 800;
+      color: var(--brand); font-variant-numeric: tabular-nums; line-height: 1;
+    }
+    .pct-label {
+      font-size: 9px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .6px; margin-top: 2px;
+    }
+
+    .data-card-branch {
+      font-size: 13px; color: var(--ink-2);
+      margin-bottom: 10px; line-height: 1.45;
+    }
+    .data-card-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+
+    .data-card-meta {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      border-top: 1px solid var(--stroke);
+      padding-top: 12px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: .5px; color: var(--muted); font-weight: 600;
+    }
+    .meta-value {
+      font-size: 13px; color: var(--ink);
+      font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+
+    /* No results */
+    .no-results { text-align: center; padding: 40px 20px; color: var(--muted); line-height: 1.8; }
+    .no-results-icon { font-size: 36px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-badge">
+        <div class="badge">CS</div>
+        <div>MHT CET Tools</div>
+      </div>
+      <div class="topbar-right">
+        <!-- Theme toggle -->
+        <label class="theme-toggle" title="Toggle dark / light mode" aria-label="Toggle theme">
+          <input type="checkbox" id="themeToggle" />
+          <div class="toggle-track">
+            <span>☀️</span>
+            <span>🌙</span>
+          </div>
+          <div class="toggle-knob"></div>
+        </label>
+        <a class="site-link" href="#" onclick="return false;">College Simplified</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- SIGN-IN FORM -->
+    <section id="detailsSection" class="card">
+      <h1>Enter Student Details (Required)</h1>
+      <form id="detailsForm" novalidate>
+        <div class="grid-2">
+          <div>
+            <label for="studentName">Full Name</label>
+            <input id="studentName" type="text" placeholder="e.g., Agam Puri" />
+            <div id="errName" class="error"></div>
+          </div>
+          <div>
+            <label for="studentEmail">Email</label>
+            <input id="studentEmail" type="email" placeholder="e.g., name@example.com" />
+            <div id="errEmail" class="error"></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="studentMobile">Mobile Number</label>
+            <input id="studentMobile" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit Indian mobile" />
+            <div class="help">We'll use this to share updates.</div>
+            <div id="errMobile" class="error"></div>
+          </div>
+          <div>
+            <label for="studentState">State</label>
+            <select id="studentState">
+              <option value="">Select State</option>
+            </select>
+            <div id="errState" class="error"></div>
+          </div>
+        </div>
+
+        <div>
+          <label for="studentCity">City</label>
+          <input id="studentCity" type="text" placeholder="e.g., Pune" />
+          <div id="errCity" class="error"></div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <button id="saveContinueBtn" class="btn btn-primary" type="submit">Save &amp; Continue</button>
+          <span class="help">By saving, your details are stored locally for convenience.</span>
+        </div>
+      </form>
+    </section>
+
+    <!-- COLLEGE VIEWER -->
+    <section id="collegeCard" class="card college-panel" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div>
+          <h1 style="margin:0;font-size:20px">MHT-CET 2025 College Cutoff</h1>
+          <div class="small" style="margin-top:6px">Filter by college, branch, seat type, merit exam, or region</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div id="signedAs" class="small" style="display:none;"></div>
+          <button id="editDetailsBtn" class="btn btn-ghost" style="display:none">Edit details</button>
+        </div>
+      </div>
+
+      <!-- Filters row 1 -->
+      <div class="controls-row" style="margin-top:16px;">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input id="searchInput" type="text" placeholder="Search college or branch..." />
+        </div>
+        <select id="collegeSelect" class="select-simple" aria-label="College">
+          <option value="">-- All Colleges --</option>
+        </select>
+      </div>
+
+      <!-- Filters row 2 -->
+      <div class="controls-row">
+        <select id="branchSelect" class="select-simple" aria-label="Branch">
+          <option value="">-- All Branches --</option>
+        </select>
+        <select id="seatSelect" class="select-simple" aria-label="Seat Type">
+          <option value="">-- All Seat Types --</option>
+        </select>
+        <select id="meritSelect" class="select-simple" aria-label="Merit Exam">
+          <option value="">-- All Merit Exams --</option>
+        </select>
+        <select id="regionSelect" class="select-simple" aria-label="Region">
+          <option value="">-- All Regions --</option>
+        </select>
+        <button id="resetBtn" class="btn btn-primary" style="background:#111;color:#fff;border-radius:8px;padding:10px 14px;">Reset</button>
+      </div>
+
+      <!-- DESKTOP: table -->
+      <div class="table-wrap" role="region" aria-live="polite">
+        <table id="dataTable" role="table" aria-label="MHT-CET data">
+          <thead>
+            <tr>
+              <th class="sortable" data-key="Institute">College Name</th>
+              <th class="sortable" data-key="Branch">Branch</th>
+              <th class="sortable" data-key="Seat Type">Seat Type</th>
+              <th class="sortable" data-key="Merit Exam">Merit Exam</th>
+              <th class="sortable" data-key="Type">Type</th>
+              <th class="sortable" data-key="Region">Region</th>
+              <th class="sortable" data-key="Percentile">Percentile ▼</th>
+              <th class="sortable" data-key="Rank">Rank</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr><td class="muted" colspan="8">Loading data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MOBILE: cards -->
+      <div class="cards-wrap" id="cardsWrap" aria-live="polite"></div>
+
+      <div class="footer-row">
+        <div class="muted">
+          Showing <span id="showingCount">0</span>–<span id="showingEnd">0</span>
+          of <span id="filteredTotal">0</span>
+          (total <span id="totalAll">0</span> rows)
+        </div>
+        <div id="paginationWrap" class="pagination"></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label class="muted">Rows per page:</label>
+          <select id="rowsPerPage" class="select-simple" style="min-width:70px">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+<script>
+/* ===== Config ===== */
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyt4ySHVQ3i4qI6trhDqGkQuZTMbv6cYkSrr4bFi_yk0RoqjgVGuT1gN6ZW8-lipytYBw/exec";
+const DATA_FILE  = 'MHT-CET DATA TEST.json';
+const LS_KEY     = "studentDetails_v1";
+const THEME_KEY  = "mhtcet_theme";
+
+const statesIN = [
+  "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat",
+  "Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra",
+  "Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu",
+  "Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal",
+  "Andaman and Nicobar Islands","Chandigarh",
+  "Dadra and Nagar Haveli and Daman and Diu","Delhi",
+  "Jammu and Kashmir","Ladakh","Lakshadweep","Puducherry"
+];
+
+/* ===== Theme ===== */
+function applyTheme(dark){
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('themeToggle').checked = dark;
+  localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+}
+
+/* ===== Local storage ===== */
+function saveDetailsLocal(d){ localStorage.setItem(LS_KEY, JSON.stringify(d)); }
+function getDetails(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)); }catch(e){ return null; } }
+
+async function postToSheet(payload, source){
+  if(!WEBAPP_URL) return;
+  const body = JSON.stringify({ ...payload, source, ua: navigator.userAgent });
+  try{ await fetch(WEBAPP_URL, { method:'POST', mode:'no-cors', body }); }catch(e){}
+}
+
+/* ===== State form ===== */
+function fillStates(){
+  const sel = document.getElementById('studentState');
+  sel.innerHTML = '<option value="">Select State</option>';
+  statesIN.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
+}
+
+function validateDetails(){
+  const name   = document.getElementById('studentName').value.trim();
+  const email  = document.getElementById('studentEmail').value.trim();
+  const mobile = document.getElementById('studentMobile').value.trim();
+  const state  = document.getElementById('studentState').value.trim();
+  const city   = document.getElementById('studentCity').value.trim();
+  ['errName','errEmail','errMobile','errState','errCity'].forEach(id=>document.getElementById(id).textContent='');
+  let ok=true;
+  if(!name){ document.getElementById('errName').textContent='Please enter your name.'; ok=false; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ document.getElementById('errEmail').textContent='Please enter a valid email.'; ok=false; }
+  if(!/^[6-9]\d{9}$/.test(mobile)){ document.getElementById('errMobile').textContent='Enter a valid 10-digit Indian mobile number.'; ok=false; }
+  if(!state){ document.getElementById('errState').textContent='Select your state.'; ok=false; }
+  if(!city){ document.getElementById('errCity').textContent='Enter your city.'; ok=false; }
+  return ok ? { name, email, mobile, state, city } : null;
+}
+
+function showCollegeViewer(details){
+  document.getElementById('detailsSection').style.display = 'none';
+  document.getElementById('collegeCard').style.display = 'block';
+  const el = document.getElementById('signedAs');
+  el.textContent = `Signed in: ${details.name}`;
+  el.style.display = 'inline-block';
+  document.getElementById('editDetailsBtn').style.display = 'inline-block';
+  document.getElementById('collegeCard').scrollIntoView({ behavior:'smooth' });
+  loadData();
+}
+
+function showDetailsForm(prefill){
+  document.getElementById('collegeCard').style.display = 'none';
+  document.getElementById('detailsSection').style.display = 'block';
+  if(prefill){
+    document.getElementById('studentName').value   = prefill.name   || '';
+    document.getElementById('studentEmail').value  = prefill.email  || '';
+    document.getElementById('studentMobile').value = prefill.mobile || '';
+    document.getElementById('studentState').value  = prefill.state  || '';
+    document.getElementById('studentCity').value   = prefill.city   || '';
+  }
+}
+
+/* ===== Data layer ===== */
+let rawData    = [];
+let filtered   = [];
+let sortKey    = 'Percentile';
+let sortDir    = -1;
+let currentPage = 1;
+let dataLoaded  = false;
+
+function escapeHtml(s){
+  return (s===null||s===undefined) ? '' : String(s)
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+}
+
+function normalizeRecord(r){
+  let percentile = Number(r['JEE Percentile'] ?? r['MHT-CET Percentile'] ?? NaN);
+  if(isNaN(percentile) || percentile === 0){
+    const m = String(r['All India Merit'] || '').match(/\(([\d.]+)\)/);
+    if(m) percentile = Number(m[1]) || 0;
+  }
+  let rank = 0;
+  const rm = String(r['All India Merit'] || '').match(/^(\d+)/);
+  if(rm) rank = Number(rm[1]) || 0;
+  return {
+    'Institute':    String(r['Institute Name'] || '').trim(),
+    'Branch':       String(r['Branch Name']    || '').replace(/\n/g,' ').trim(),
+    'Seat Type':    String(r['Seat Type']       || '').trim(),
+    'Merit Exam':   String(r['Merit Exam']      || '').trim(),
+    'Type':         String(r['Type']            || '').trim(),
+    'Region':       String(r['Region']          || '').trim(),
+    'College Url':  String(r['College Url']     || '').trim(),
+    'College Code': String(r['College Code']    || '').trim(),
+    'Percentile':   percentile,
+    'Rank':         rank
+  };
+}
+
+async function loadData(){
+  if(dataLoaded) return;
+  try{
+    const resp = await fetch(DATA_FILE, { cache:'no-store' });
+    if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const json = await resp.json();
+    let data = Array.isArray(json) ? json : (Object.values(json).find(v=>Array.isArray(v)) || []);
+    rawData = data.map(normalizeRecord);
+    dataLoaded = true;
+    initCollege();
+  }catch(e){
+    const err = `Unable to load <strong>${DATA_FILE}</strong>. Place it in the same folder and serve from the same origin.`;
+    document.getElementById('tbody').innerHTML = `<tr><td class='muted' colspan='8'>${err}</td></tr>`;
+    document.getElementById('cardsWrap').innerHTML = `<div class="no-results"><div class="no-results-icon">⚠️</div>${err}</div>`;
+    console.error('loadData error', e);
+  }
+}
+
+/* ===== Dropdowns ===== */
+function uniqueSorted(arr){ return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b)); }
+
+function initCollege(){
+  populateSelect('collegeSelect', uniqueSorted(rawData.map(d=>d.Institute)),         '-- All Colleges --');
+  populateSelect('branchSelect',  uniqueSorted(rawData.map(d=>d.Branch)),             '-- All Branches --');
+  populateSelect('seatSelect',    uniqueSorted(rawData.map(d=>d['Seat Type'])),        '-- All Seat Types --');
+  populateSelect('meritSelect',   uniqueSorted(rawData.map(d=>d['Merit Exam'])),       '-- All Merit Exams --');
+  populateSelect('regionSelect',  uniqueSorted(rawData.map(d=>d.Region)),             '-- All Regions --');
+  filtered = [...rawData];
+  currentPage = 1;
+  sortAndRender();
+}
+
+function populateSelect(id, values, placeholder){
+  const sel = document.getElementById(id);
+  sel.innerHTML = `<option value="">${escapeHtml(placeholder)}</option>` +
+    values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
+}
+
+/* ===== Filters ===== */
+function applyFilters(){
+  const college = document.getElementById('collegeSelect').value.trim();
+  const branch  = document.getElementById('branchSelect').value.trim();
+  const seat    = document.getElementById('seatSelect').value.trim();
+  const merit   = document.getElementById('meritSelect').value.trim();
+  const region  = document.getElementById('regionSelect').value.trim();
+  const search  = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  filtered = rawData.filter(d=>{
+    if(college && d.Institute    !== college) return false;
+    if(branch  && d.Branch       !== branch)  return false;
+    if(seat    && d['Seat Type'] !== seat)    return false;
+    if(merit   && d['Merit Exam']!== merit)   return false;
+    if(region  && d.Region       !== region)  return false;
+    if(search && !(d.Institute+' '+d.Branch).toLowerCase().includes(search)) return false;
+    return true;
+  });
+  currentPage = 1;
+  sortAndRender();
+}
+
+/* ===== Sort ===== */
+function sortAndRender(){
+  filtered.sort((a,b)=>{
+    let A = a[sortKey] ?? '', B = b[sortKey] ?? '';
+    if(typeof A === 'string') A = A.toLowerCase();
+    if(typeof B === 'string') B = B.toLowerCase();
+    return A < B ? -sortDir : A > B ? sortDir : 0;
+  });
+  renderCollege();
+}
+
+/* ===== Render ===== */
+function renderCollege(){
+  const rowsPerPage = Number(document.getElementById('rowsPerPage').value) || 25;
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / rowsPerPage));
+  if(currentPage > totalPages) currentPage = totalPages;
+
+  const start  = (currentPage - 1) * rowsPerPage;
+  const end    = Math.min(start + rowsPerPage, total);
+  const toShow = filtered.slice(start, end);
+
+  /* --- Desktop table --- */
+  const tbody = document.getElementById('tbody');
+  if(toShow.length === 0){
+    tbody.innerHTML = '<tr><td class="muted" colspan="8">No results found.</td></tr>';
+  } else {
+    tbody.innerHTML = toShow.map(d=>{
+      const pct  = (typeof d.Percentile === 'number' && d.Percentile > 0) ? d.Percentile.toFixed(7) : escapeHtml(d.Percentile);
+      const name = d['College Url']
+        ? `<a class="college-link" href="${escapeHtml(d['College Url'])}" target="_blank" rel="noopener">${escapeHtml(d.Institute)}</a>`
+        : escapeHtml(d.Institute);
+      return `<tr>
+        <td title="${escapeHtml(d.Institute)}">${name}</td>
+        <td title="${escapeHtml(d.Branch)}">${escapeHtml(d.Branch)}</td>
+        <td><span class="chip">${escapeHtml(d['Seat Type'])}</span></td>
+        <td><span class="chip chip-orange">${escapeHtml(d['Merit Exam'])}</span></td>
+        <td>${escapeHtml(d.Type)}</td>
+        <td><span class="chip chip-green">${escapeHtml(d.Region)}</span></td>
+        <td style="font-variant-numeric:tabular-nums">${pct}</td>
+        <td style="font-variant-numeric:tabular-nums">${d.Rank || ''}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  /* --- Mobile cards --- */
+  const cardsWrap = document.getElementById('cardsWrap');
+  if(toShow.length === 0){
+    cardsWrap.innerHTML = `<div class="no-results">
+      <div class="no-results-icon">🔍</div>
+      No results found.<br>
+      <span class="muted">Try adjusting your filters.</span>
+    </div>`;
+  } else {
+    cardsWrap.innerHTML = toShow.map(d=>{
+      const pct4 = (typeof d.Percentile === 'number' && d.Percentile > 0) ? d.Percentile.toFixed(4) : (d.Percentile || '—');
+      const collegeName = d['College Url']
+        ? `<a href="${escapeHtml(d['College Url'])}" target="_blank" rel="noopener">${escapeHtml(d.Institute)}</a>`
+        : escapeHtml(d.Institute);
+      return `<div class="data-card">
+        <div class="data-card-header">
+          <div class="data-card-college">${collegeName}</div>
+          <div class="data-card-pct">
+            <div class="pct-value">${pct4}</div>
+            <div class="pct-label">Percentile</div>
+          </div>
+        </div>
+        <div class="data-card-branch">${escapeHtml(d.Branch)}</div>
+        <div class="data-card-chips">
+          ${d['Seat Type']  ? `<span class="chip">${escapeHtml(d['Seat Type'])}</span>`          : ''}
+          ${d['Merit Exam'] ? `<span class="chip chip-orange">${escapeHtml(d['Merit Exam'])}</span>` : ''}
+          ${d.Region        ? `<span class="chip chip-green">${escapeHtml(d.Region)}</span>`      : ''}
+        </div>
+        <div class="data-card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Rank</span>
+            <span class="meta-value">${d.Rank || '—'}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Type</span>
+            <span class="meta-value">${escapeHtml(d.Type) || '—'}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">College Code</span>
+            <span class="meta-value">${escapeHtml(d['College Code']) || '—'}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('showingCount').textContent  = total === 0 ? 0 : start + 1;
+  document.getElementById('showingEnd').textContent    = end;
+  document.getElementById('filteredTotal').textContent = total;
+  document.getElementById('totalAll').textContent      = rawData.length;
+  renderPagination(totalPages);
+}
+
+/* ===== Pagination ===== */
+function renderPagination(totalPages){
+  const wrap = document.getElementById('paginationWrap');
+  if(totalPages <= 1){ wrap.innerHTML=''; return; }
+
+  let html = `<button class="page-btn" id="prevPage" ${currentPage===1?'disabled':''}>‹ Prev</button>`;
+  const pages = [];
+  if(totalPages <= 7){
+    for(let i=1;i<=totalPages;i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if(currentPage > 4) pages.push('…');
+    for(let i=Math.max(2,currentPage-2);i<=Math.min(totalPages-1,currentPage+2);i++) pages.push(i);
+    if(currentPage < totalPages-3) pages.push('…');
+    pages.push(totalPages);
+  }
+  pages.forEach(p=>{
+    if(p==='…') html += `<span style="padding:0 4px;color:var(--muted)">…</span>`;
+    else html += `<button class="page-btn${p===currentPage?' active':''}" data-page="${p}">${p}</button>`;
+  });
+  html += `<button class="page-btn" id="nextPage" ${currentPage===totalPages?'disabled':''}>Next ›</button>`;
+  wrap.innerHTML = html;
+
+  wrap.querySelectorAll('[data-page]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ currentPage=Number(btn.dataset.page); renderCollege(); });
+  });
+  const prev = wrap.querySelector('#prevPage');
+  const next = wrap.querySelector('#nextPage');
+  if(prev) prev.addEventListener('click', ()=>{ if(currentPage>1){ currentPage--; renderCollege(); } });
+  if(next) next.addEventListener('click', ()=>{ if(currentPage<totalPages){ currentPage++; renderCollege(); } });
+}
+
+/* ===== Wiring ===== */
+document.addEventListener('DOMContentLoaded', ()=>{
+
+  /* Theme init */
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  applyTheme(savedTheme === 'dark');
+  document.getElementById('themeToggle').addEventListener('change', e => applyTheme(e.target.checked));
+
+  fillStates();
+
+  const existing = getDetails();
+  if(existing && existing.name && existing.email && existing.mobile && existing.state && existing.city){
+    showCollegeViewer(existing);
+  } else {
+    showDetailsForm(existing || {});
+  }
+
+  /* Sign-in form */
+  const form    = document.getElementById('detailsForm');
+  const saveBtn = document.getElementById('saveContinueBtn');
+  form.addEventListener('submit', async ev=>{
+    ev.preventDefault();
+    const data = validateDetails();
+    if(!data) return;
+    saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+    try{ await postToSheet(data, 'details'); }catch(e){}
+    saveDetailsLocal(data);
+    showCollegeViewer(data);
+    saveBtn.disabled = false; saveBtn.textContent = 'Save & Continue';
+  });
+
+  document.getElementById('editDetailsBtn').addEventListener('click', ()=>{
+    showDetailsForm(getDetails() || {});
+    document.getElementById('detailsSection').scrollIntoView({ behavior:'smooth' });
+  });
+
+  /* Filters */
+  ['collegeSelect','branchSelect','seatSelect','meritSelect','regionSelect'].forEach(id=>{
+    document.getElementById(id).addEventListener('change', applyFilters);
+  });
+  document.getElementById('searchInput').addEventListener('input',   applyFilters);
+  document.getElementById('rowsPerPage').addEventListener('change',  ()=>{ currentPage=1; renderCollege(); });
+
+  /* Reset */
+  document.getElementById('resetBtn').addEventListener('click', ()=>{
+    ['collegeSelect','branchSelect','seatSelect','meritSelect','regionSelect'].forEach(id=>{ document.getElementById(id).value=''; });
+    document.getElementById('searchInput').value = '';
+    filtered = [...rawData];
+    currentPage = 1; sortKey = 'Percentile'; sortDir = -1;
+    updateSortHeaders();
+    sortAndRender();
+  });
+
+  /* Sort headers */
+  document.querySelectorAll('th.sortable').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      const key = th.dataset.key;
+      if(sortKey === key) sortDir *= -1;
+      else { sortKey=key; sortDir=(key==='Percentile'||key==='Rank')?-1:1; }
+      updateSortHeaders();
+      currentPage = 1;
+      sortAndRender();
+    });
+  });
+
+  function updateSortHeaders(){
+    document.querySelectorAll('th.sortable').forEach(h=>{
+      h.textContent = h.dataset.key + (h.dataset.key===sortKey ? (sortDir>0?' ▲':' ▼') : '');
+    });
+  }
+});
+</script>
+</body>
+</html>
